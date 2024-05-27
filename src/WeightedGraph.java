@@ -1,4 +1,6 @@
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class WeightedGraph<T> {
     private Set<Vertex<T>> vertices;
@@ -13,5 +15,13 @@ public class WeightedGraph<T> {
 
     public Set<Vertex<T>> getVertices() {
         return vertices;
+    }
+
+    public Set<Vertex<T>> adjacencyList(Vertex<T> vertex) {
+        return vertex.getAdjacentVertices().keySet();
+    }
+
+    public Set<Map.Entry<Vertex<T>, Double>> getEdges(Vertex<T> vertex) {
+        return vertex.getAdjacentVertices().entrySet();
     }
 }
