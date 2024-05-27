@@ -1,42 +1,83 @@
-import java.util.Map;
-
 public class Main {
+
     public static void main(String[] args) {
-        //Vertices
-        Vertex<String> v1 = new Vertex<>("A");
-        Vertex<String> v2 = new Vertex<>("B");
-        Vertex<String> v3 = new Vertex<>("C");
-        Vertex<String> v4 = new Vertex<>("D");
+        WeightedGraph<String> weightedGraph = new WeightedGraph<>();
+        fillWithWeights(weightedGraph);
 
-        //Edges
-        v1.addAdjacentVertex(v2, 1);
-        v1.addAdjacentVertex(v3, 4);
-        v2.addAdjacentVertex(v3, 2);
-        v2.addAdjacentVertex(v4, 5);
-        v3.addAdjacentVertex(v4, 1);
+        System.out.println("Dijkstra:");
+        DijkstraSearch<String> djk = new DijkstraSearch<>(weightedGraph, new Vertex<>("Almaty"));
+        outputPath(djk, new Vertex<>("Kyzylorda"));
 
-        //Graph and vertices
-        WeightedGraph<String> graph = new WeightedGraph<>();
-        graph.addVertex(v1);
-        graph.addVertex(v2);
-        graph.addVertex(v3);
-        graph.addVertex(v4);
 
-        //BFS
-        BreadthFirstSearch<String> bfs = new BreadthFirstSearch<>(graph, v1);
-        System.out.print("BFS traversal starting from A: ");
-        for (Vertex<String> vertex : bfs.pathTo(v4)) {
-            System.out.print(vertex + " ");
+        System.out.println("--------------------------------");
+
+        MyGraph<String> graph = new MyGraph<>();
+        fillWithoutWeights(graph);
+
+        System.out.println("DFS:");
+        DepthFirstSearch<String> dfs = new DepthFirstSearch<>(graph, new Vertex<>("Almaty"));
+        outputPath(dfs, new Vertex<>("Kyzylorda"));
+
+        System.out.println("--------------------------------");
+
+        System.out.println("BFS:");
+        BreadthFirstSearch<String> bfs = new BreadthFirstSearch<>(graph, new Vertex<>("Almaty"));
+        outputPath(bfs, new Vertex<>("Kyzylorda"));
+    }
+
+    public static void fillWithoutWeights(MyGraph<String> graph) {
+        Vertex<String> almaty = new Vertex<>("Almaty");
+        Vertex<String> astana = new Vertex<>("Astana");
+        Vertex<String> shymkent = new Vertex<>("Shymkent");
+        Vertex<String> atyrau = new Vertex<>("Atyrau");
+        Vertex<String> kostanay = new Vertex<>("Kostanay");
+        Vertex<String> kyzylorda = new Vertex<>("Kyzylorda");
+
+        graph.addVertex(almaty);
+        graph.addVertex(astana);
+        graph.addVertex(shymkent);
+        graph.addVertex(atyrau);
+        graph.addVertex(kostanay);
+        graph.addVertex(kyzylorda);
+
+        graph.addEdge(almaty, astana);
+        graph.addEdge(shymkent, atyrau);
+        graph.addEdge(atyrau, astana);
+        graph.addEdge(almaty, shymkent);
+        graph.addEdge(shymkent, astana);
+        graph.addEdge(astana, kostanay);
+        graph.addEdge(shymkent, kyzylorda);
+    }
+
+    public static void fillWithWeights(WeightedGraph<String> graph) {
+        Vertex<String> almaty = new Vertex<>("Almaty");
+        Vertex<String> astana = new Vertex<>("Astana");
+        Vertex<String> shymkent = new Vertex<>("Shymkent");
+        Vertex<String> atyrau = new Vertex<>("Atyrau");
+        Vertex<String> kostanay = new Vertex<>("Kostanay");
+        Vertex<String> kyzylorda = new Vertex<>("Kyzylorda");
+
+        graph.addVertex(almaty);
+        graph.addVertex(astana);
+        graph.addVertex(shymkent);
+        graph.addVertex(atyrau);
+        graph.addVertex(kostanay);
+        graph.addVertex(kyzylorda);
+
+        graph.addEdge(almaty, astana, 2.1);
+        graph.addEdge(shymkent, atyrau, 7.8);
+        graph.addEdge(atyrau, astana, 7.1);
+        graph.addEdge(almaty, shymkent, 7.2);
+        graph.addEdge(shymkent, astana, 3.9);
+        graph.addEdge(astana, kostanay, 3.5);
+        graph.addEdge(shymkent, kyzylorda, 5.4);
+    }
+
+    public static void outputPath(Search<String> search, Vertex<String> key) {
+        for (Vertex<String> v : search.pathTo(key)) {
+            System.out.print(v + " -> ");
         }
+
         System.out.println();
-
-        //Dijkstra
-        DijkstraSearch<String> dijkstra = new DijkstraSearch<>(graph, v1);
-        Map<Vertex<String>, Double> distances = dijkstra.getDistances();
-
-        System.out.println("Dijkstra's shortest paths from A:");
-        for (Map.Entry<Vertex<String>, Double> entry : distances.entrySet()) {
-            System.out.println("Distance to " + entry.getKey() + " is " + entry.getValue());
-        }
     }
 }

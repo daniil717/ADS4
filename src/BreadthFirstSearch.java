@@ -2,12 +2,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BreadthFirstSearch<T> extends Search<T> {
-    public BreadthFirstSearch(WeightedGraph<T> graph, Vertex<T> source) {
+    public BreadthFirstSearch(MyGraph<T> graph, Vertex<T> source) {
         super(source);
         bfs(graph, source);
     }
 
-    private void bfs(WeightedGraph<T> graph, Vertex<T> current) {
+    private void bfs(MyGraph<T> graph, Vertex<T> current) {
         marked.add(current);
 
         Queue<Vertex<T>> queue = new LinkedList<>();
@@ -16,7 +16,7 @@ public class BreadthFirstSearch<T> extends Search<T> {
         while (!queue.isEmpty()) {
             Vertex<T> v = queue.remove();
 
-            for (Vertex<T> vertex : graph.adjacencyList(v)) {
+            for (Vertex<T> vertex : graph.getAdjacentVertices(v)) {
                 if (!marked.contains(vertex)) {
                     marked.add(vertex);
                     edgeTo.put(vertex, v);

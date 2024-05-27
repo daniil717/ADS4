@@ -27,8 +27,10 @@ public class DijkstraSearch<T> extends Search<T> {
             marked.add(currentNode);
             unsettledNodes.remove(currentNode);
 
-            for (Vertex<T> neighbor : graph.adjacencyList(currentNode)) {
-                double newDistance = getShortestDistance(currentNode) + getDistance(currentNode, neighbor);
+            for (Map.Entry<Vertex<T>, Double> entry : graph.getEdges(currentNode).entrySet()) {
+                Vertex<T> neighbor = entry.getKey();
+                double edgeWeight = entry.getValue();
+                double newDistance = getShortestDistance(currentNode) + edgeWeight;
 
                 if (getShortestDistance(neighbor) > newDistance) {
                     distances.put(neighbor, newDistance);
@@ -40,11 +42,10 @@ public class DijkstraSearch<T> extends Search<T> {
     }
 
     private double getDistance(Vertex<T> node, Vertex<T> target) {
-        for (Map.Entry<Vertex<T>, Double> edge : graph.getEdges(node)) {
+        for (Map.Entry<Vertex<T>, Double> edge : graph.getEdges(node).entrySet()) {
             if (edge.getKey().equals(target))
                 return edge.getValue();
         }
-
         throw new RuntimeException("Not found!");
     }
 
