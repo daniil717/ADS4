@@ -15,12 +15,16 @@ public class Vertex<T> {
         return data;
     }
 
-    public void addAdjacentVertex(Vertex<T> vertex, double weight) {
-        adjacentVertices.put(vertex, weight);
+    public void setData(T data) {
+        this.data = data;
     }
 
     public Map<Vertex<T>, Double> getAdjacentVertices() {
         return adjacentVertices;
+    }
+
+    public void addAdjacentVertex(Vertex<T> vertex, double weight) {
+        adjacentVertices.put(vertex, weight);
     }
 
     @Override
@@ -34,10 +38,5 @@ public class Vertex<T> {
     @Override
     public int hashCode() {
         return Objects.hash(data);
-    }
-
-    @Override
-    public String toString() {
-        return data.toString();
     }
 }

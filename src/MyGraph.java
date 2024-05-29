@@ -1,27 +1,24 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyGraph<T> {
-    private Map<Vertex<T>, List<Vertex<T>>> adjList;
+    private Map<Vertex<T>, Map<Vertex<T>, Double>> adjList;
 
     public MyGraph() {
         adjList = new HashMap<>();
     }
 
     public void addVertex(Vertex<T> vertex) {
-        adjList.putIfAbsent(vertex, new ArrayList<>());
+        adjList.putIfAbsent(vertex, new HashMap<>());
     }
 
     public void addEdge(Vertex<T> source, Vertex<T> dest) {
-        adjList.get(source).add(dest);
-        adjList.get(dest).add(source); // Assuming undirected graph
+        addVertex(source);
+        addVertex(dest);
+        adjList.get(source).put(dest, 1.0); // default weight for unweighted edge
     }
 
-    public List<Vertex<T>> getAdjacentVertices(Vertex<T> vertex) {
-        return adjList.getOrDefault(vertex, Collections.emptyList());
-    }
-
-    public Set<Vertex<T>> getVertices() {
-        return adjList.keySet();
+    public Map<Vertex<T>, Double> getAdjacentVertices(Vertex<T> vertex) {
+        return adjList.getOrDefault(vertex, new HashMap<>());
     }
 }
-

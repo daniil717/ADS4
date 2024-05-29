@@ -75,7 +75,7 @@ public class Main {
 
     public static void outputPath(Search<String> search, Vertex<String> key) {
         for (Vertex<String> v : search.pathTo(key)) {
-            System.out.print(v + " -> ");
+            System.out.print(v.getData() + " -> ");
         }
 
         System.out.println();

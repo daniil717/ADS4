@@ -16,11 +16,11 @@ public class BreadthFirstSearch<T> extends Search<T> {
         while (!queue.isEmpty()) {
             Vertex<T> v = queue.remove();
 
-            for (Vertex<T> vertex : graph.getAdjacentVertices(v)) {
-                if (!marked.contains(vertex)) {
-                    marked.add(vertex);
-                    edgeTo.put(vertex, v);
-                    queue.add(vertex);
+            for (Vertex<T> neighbor : graph.getAdjacentVertices(v).keySet()) {
+                if (!marked.contains(neighbor)) {
+                    marked.add(neighbor);
+                    edgeTo.put(neighbor, v);
+                    queue.add(neighbor);
                 }
             }
         }
